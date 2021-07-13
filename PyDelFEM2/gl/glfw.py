@@ -249,6 +249,7 @@ def imgDraw3d(list_obj,winsize=(400,300)):
     aabb3.add_minmax_xyz(obj.minmax_xyz())
   window.wm.camera.adjust_scale_trans(aabb3.list_xyz())
   #### initialize opengl
+  glew_init()
   setSomeLighting()
   gl.glEnable(gl.GL_POLYGON_OFFSET_FILL )
   gl.glPolygonOffset( 1.1, 4.0 )

@@ -17,19 +17,20 @@ import PyDelFEM2 as dfm2
 import PyDelFEM2.gl.glfw
 
 cad = dfm2.Cad2D()
-cad.add_polygon(list_xy=[-1,-1, +1,-1, +1,0, +0,+0, 0,+1, -1,+1.0])
-mesh,map_cad2mesh = cad.mesh(0.05)
-fem = dfm2.FEM_Poisson(source=1.0)
-fem.updated_topology(mesh)
-npIdP = cad.points_edge([0,1,2,3], mesh.np_pos)
+cad.add_polygon(list_xy=[-1, -1, +1, -1, +1, +1, -1, +1])
+mesher = dfm2.Mesher_Cad2D(edge_length=0.05)
+msh = mesher.meshing(cad)
+fem = dfm2.FEM_ScalarPoisson(source=1.0)
+fem.updated_topology(msh)
+npIdP = cad.points_edge([0,1,2,3], msh.np_pos)
 fem.ls.bc[npIdP] = 1
 fem.solve()
-field = dfm2.VisFEM_ColorContour(fem,"value")
-dfm2.gl._glfw.winDraw3d([field])
+field = dfm2.gl.VisFEM_ColorContour(fem, "value")
+dfm2.gl.glfw.winDraw3d([field])
 ```
 The result of this code woud be the following window
 
-![Poisson](docs/imgs/poisson.png)
+![Poisson](delfem2/docs/imgs/poisson.png)
 
 
 ## Files
@@ -50,7 +51,7 @@ The most recommended way to install PyDelFEM2, which is the python binding of De
 
 ```
 git clone https://github.com/nobuyuki83/delfem2.git
-git submodle update --init --recursive
+git submodule update --init --recursive
 pip3 install -e .
 ```
 
