@@ -20,6 +20,7 @@ from PySide2.QtWidgets import \
 
 import PyDelFEM2 as dfm2
 import PyDelFEM2.gl
+import PyDelFEM2.gl.c_gl
 
 def setClearColor(c:QColor):
   gl.glClearColor(c.redF(), c.greenF(), c.blueF(), c.alphaF())
@@ -106,6 +107,7 @@ class QGLW_Nav3D(QOpenGLWidget):
     return QSize(600, 600)
 
   def initializeGL(self):
+    dfm2.gl.c_gl.glew_init()
     gl.glClearColor(0.8, 0.8, 1.0, 1.0)
     gl.glShadeModel(gl.GL_FLAT)
     gl.glEnable(gl.GL_DEPTH_TEST)
@@ -179,6 +181,7 @@ class QGLW_Cad2D(QOpenGLWidget):
     return QSize(600, 600)
 
   def initializeGL(self):
+    dfm2.gl.c_gl.glew_init()
     gl.glClearColor(0.8, 0.8, 1.0, 1.0)
     gl.glEnable(gl.GL_DEPTH_TEST)
     gl.glEnable(gl.GL_CULL_FACE)
